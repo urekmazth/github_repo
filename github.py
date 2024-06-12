@@ -1,11 +1,8 @@
 import os
 
 import requests
-from dotenv import load_dotenv
 
-load_dotenv()
-
-access_token = os.environ.get('GITHUB_ACCESS_TOKEN')
+access_token = os.environ.get('GITHUB_TOKEN')
 
 headers = None
 if access_token:

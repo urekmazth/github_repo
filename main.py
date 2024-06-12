@@ -1,8 +1,10 @@
 import typer
 from rich import print as rich_print
+from dotenv import load_dotenv
 
 from github import get_all_user_repositories
 
+load_dotenv()
 
 app = typer.Typer()
 
