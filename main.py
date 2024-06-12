@@ -20,4 +20,22 @@ payload = {}
 # or requests.request(url, method='GET',.....)
 response = requests.get(url, headers=headers, data=payload)
 
-print(response.text)
+repos = response.json()
+repositories = []
+
+for repo in repos:
+    info = {
+        "id": repo.get("id"),
+        "name": repo.get("name"),
+        "url": repo.get("html_url"),
+        "description": repo.get("description"),
+        "language": repo.get("language"),
+        "stars": repo.get("stargazers_count"),
+        "forks": repo.get("forks_count"),
+        "fork": str(repo.get("fork")),
+        "created_at": repo.get("created_at"),
+    }
+
+    repositories.append(info)
+
+print(repositories[0])
