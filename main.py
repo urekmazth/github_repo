@@ -1,8 +1,23 @@
 import os
 
+import requests
 from dotenv import load_dotenv
 
 load_dotenv()
 
 access_token = os.environ.get('GITHUB_ACCESS_TOKEN')
-print(access_token)
+
+headers = {
+    "Accept": "application/vnd.github+json",
+    "Authorization": f"Bearer {access_token}",
+    "X-GitHub-Api-Version": "2022-11-28"
+}
+
+url = "https://api.github.com/users/urekmazth/repos"
+
+payload = {}
+
+# or requests.request(url, method='GET',.....)
+response = requests.get(url, headers=headers, data=payload)
+
+print(response.text)
