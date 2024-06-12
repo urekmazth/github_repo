@@ -28,39 +28,44 @@ def get_all_user_repositories(username: str):
     repositories = []
     page = 1
 
-    while True:
-        # or requests.request(url, method='GET',.....)
-        params = {"page": page, "per_page": 100}
-        response = requests.get(url, headers=headers,
-                                data=payload, params=params)
+    try:
+        while True:
+            # or requests.request(url, method='GET',.....)
+            params = {"page": page, "per_page": 100}
+            response = requests.get(url, headers=headers,
+                                    data=payload, params=params)
 
-        # raise exception if an error is encountered
-        response.raise_for_status()
+            # raise exception if an error is encountered
+            response.raise_for_status()
 
-        repos = response.json()
+            repos = response.json()
 
-        if not repos:
-            break
+            if not repos:
+                break
 
-        for repo in repos:
-            info = {
-                "id": repo.get("id"),
-                "name": repo.get("name"),
-                "url": repo.get("html_url"),
-                "description": repo.get("description"),
-                "language": repo.get("language"),
-                "stars": repo.get("stargazers_count"),
-                "forks": repo.get("forks_count"),
-                "fork": str(repo.get("fork")),
-                "created_at": repo.get("created_at"),
-            }
+            for repo in repos:
+                info = {
+                    "id": repo.get("id"),
+                    "name": repo.get("name"),
+                    "url": repo.get("html_url"),
+                    "description": repo.get("description"),
+                    "language": repo.get("language"),
+                    "stars": repo.get("stargazers_count"),
+                    "forks": repo.get("forks_count"),
+                    "fork": str(repo.get("fork")),
+                    "created_at": repo.get("created_at"),
+                }
 
-            repositories.append(info)
-        page += 1
+                repositories.append(info)
+            page += 1
 
-    print(repositories[0])
-    print(page)
-    print(len(repositories))
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching repositories for user {username}: \n{e}")
+        return None
+
+    return repositories
 
 
-get_all_user_repositories("urekmazth")
+r = get_all_user_repositories("urekmazth")
+print(r)
+print(len(r))
